@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<cloudbees-web-app xmlns="http://www.cloudbees.com/xml/webapp/1">    
+    <appid>envdump</appid>
+    <context-param>
+        <param-name>hello</param-name>
+        <param-value>you</param-value>
+    </context-param>
+
+	<environment name="foo">
+		<context-param>
+	        <param-name>fooing</param-name>
+	        <param-value>yes</param-value>
+	    </context-param>
+	</environment>
+
+</cloudbees-web-app>
