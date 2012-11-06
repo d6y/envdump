@@ -38,7 +38,7 @@
     </target>
 
     <target name="compile" depends="init" description="compile the source ">
-        <javac srcdir="${src}" destdir="${classes}" classpathref="webapp.classpath" />
+        <javac source="1.6" target="1.6" srcdir="${src}" destdir="${classes}" classpathref="webapp.classpath" />
         <copy todir="${classes}">
             <fileset dir="${src}" excludes="**/*.java" />
         </copy>

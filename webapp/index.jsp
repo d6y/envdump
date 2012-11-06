@@ -1,44 +1,12 @@
+<%@ page import="java.net.*" %>
+<%@ page import="java.io.*" %>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
 
 <html>
 	<head>
 		<style>
-			body {
-				background-color: #eef0f6;
-				margin: 0px;
-				font-size: .9em;
-			}
 			
-			a, a:hover, a:visited { color:black; text-decoration:none; }
-			a, a:visited { border-bottom: 1px dotted black; }
-			a:hover { border-bottom: 1px solid black; }
-				
-			#content { 
-				background-color: white; 
-				margin: 0px 250px 0px 20px;
-				padding: 20px;
-				border-top: 1px solid #6A829E;
-				border-left: 1px solid #6A829E;
-				border-right: 1px solid #6A829E;
-				border-bottom: 1px solid #6A829E;
-				height: 800px;
-			}
-			h2.title { margin: 0px; padding: 20px;}
-			
-			#sidebar {
-				position: absolute;
-				right: 10px; top: 60px;
-				width: 200px;
-				padding: 0 10px 10px 10px;				
-			}
-			#sidebar h3 { margin: 10px 0px 5px 0px; }
-			#sidebar p { margin: 10px 5px 10px 5px;}
-			#sidebar li { list-style: none; margin: 0px; padding: 5px 0px 5px 0px;}
-			#sidebar ul { margin: 5px; padding: 0px;}			
-			#sidebar li { padding: 5px 0px 5px 0px;}			
-			#sidebar table { width: 160px; margin: 5px;}			
-			#sidebar td { border-bottom: 1px solid #6A829E; padding: 2px 5px 2px 5px;}
-			#sidebar .col2 { text-align: right; }
 		</style>
 	</head>
 <body>
@@ -51,7 +19,6 @@
 	<table>
 
 		<tr><th>Property</th><th>Value</th></tr>
-
 	
 	<%   
 		// yuck
@@ -69,6 +36,34 @@
 	%>
 
 	</table>
+
+
+
+<hr />
+
+<h2>Env properties</h2>
+
+	<table>
+
+		<tr><th>Property</th><th>Value</th></tr>
+	
+	<%   
+		java.util.Map<String,String> envs = System.getenv();
+		java.util.Set<String> ekeys =  envs.keySet(); 
+		for( String ekey: ekeys) {
+			String value = envs.get(ekey);
+	  	%>
+			<tr>
+				<td><%=ekey%></td><td><%=value%></td>
+			</tr>
+			<%
+		}
+	%>
+
+	</table>
+
+
+<hr />
 
 	<h2>Request values</h2>
 	<table>
@@ -108,6 +103,8 @@
   
   </table>
 
+<hr />
+
 
   <h2>Header values</h2>
 
@@ -132,6 +129,8 @@
   </table>
 
 
+<hr />
+
 	<h2>Servlet context parameters</h2>
 	
 	<table>
@@ -152,6 +151,37 @@
 	%>
 
 	</table>
+
+
+<hr />
+
+<h1>My IP</h1>
+
+Port: <%= System.getenv("app_port")%>  <br/>
+
+<%
+
+try
+{
+URL website = new URL("http://instance-data/latest/meta-data/public-hostname");
+URLConnection connection = website.openConnection();
+BufferedReader in = new BufferedReader(new InputStreamReader(  connection.getInputStream()));
+StringBuilder publicHost = new StringBuilder();
+String inputLine;
+
+while ((inputLine = in.readLine()) != null) publicHost.append(inputLine);
+
+in.close();
+
+%> 
+Host: <%= publicHost.toString() %>  <br /> <%
+}
+catch (Exception x)
+{
+	%> x <%
+}
+
+%>
 
 	
 </body>
