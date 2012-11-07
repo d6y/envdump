@@ -4,7 +4,6 @@ Build and deploy:
 
     ant clean
     ant
-    bees:deploy
-    bees app:deploy -a dallaway/envdump tabuild/webapp.war
+    bees app:deploy -a dallaway/envdump build/webapp.war
     
     

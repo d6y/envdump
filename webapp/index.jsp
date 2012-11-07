@@ -1,5 +1,7 @@
 <%@ page import="java.net.*" %>
 <%@ page import="java.io.*" %>
+<%@ page import="java.util.regex.*" %>
+
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
 
@@ -157,22 +159,32 @@
 
 <h1>My IP</h1>
 
-Port: <%= System.getenv("app_port")%>  <br/>
+Port from app_port: <%= System.getenv("app_port")%>  <br/>
+
+<% 
+ Matcher m = Pattern.compile(".*-port (\\d+) .*").matcher(System.getProperty("sun.java.command"));
+ String jcPort = m.matches() ? m.group(1) : "No match";
+%>
+Port from <code>sun.java.command</code>: <%= jcPort %> <br/>
+
+
+<%
+File portsDir = new File(System.getenv("PWD"), ".genapp/ports");
+%>
+Port files (num files = <%= portsDir.list().length %>) in <code>.genapp/ports</code>: <% for (String s : portsDir.list() ) { %> <%= s %> <% } %> <br />
 
 <%
 
 try
 {
+// Kill me now
 URL website = new URL("http://instance-data/latest/meta-data/public-hostname");
 URLConnection connection = website.openConnection();
-BufferedReader in = new BufferedReader(new InputStreamReader(  connection.getInputStream()));
+BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 StringBuilder publicHost = new StringBuilder();
 String inputLine;
-
 while ((inputLine = in.readLine()) != null) publicHost.append(inputLine);
-
 in.close();
-
 %> 
 Host: <%= publicHost.toString() %>  <br /> <%
 }
