@@ -8,11 +8,11 @@
 <html>
 	<head>
 		<style>
-			
+
 		</style>
 	</head>
 <body>
-	
+
 	<h1>Environment dump</h1>
 
 
@@ -21,13 +21,13 @@
 	<table>
 
 		<tr><th>Property</th><th>Value</th></tr>
-	
-	<%   
+
+	<%
 		// yuck
-		java.util.Properties p = System.getProperties(); 
+		java.util.Properties p = System.getProperties();
 		java.util.Enumeration e = p.propertyNames();
 		while (e.hasMoreElements()) {
-			String name = (String)e.nextElement(); 
+			String name = (String)e.nextElement();
 			String value = System.getProperty(name);
 			%>
 			<tr>
@@ -48,10 +48,10 @@
 	<table>
 
 		<tr><th>Property</th><th>Value</th></tr>
-	
-	<%   
+
+	<%
 		java.util.Map<String,String> envs = System.getenv();
-		java.util.Set<String> ekeys =  envs.keySet(); 
+		java.util.Set<String> ekeys =  envs.keySet();
 		for( String ekey: ekeys) {
 			String value = envs.get(ekey);
 	  	%>
@@ -70,7 +70,7 @@
 	<h2>Request values</h2>
 	<table>
 
-	<tr><th>Name</th><th>Value</th></tr>	
+	<tr><th>Name</th><th>Value</th></tr>
 	<tr><td>getServerName</td><td><%= request.getServerName() %></td></tr>
   <tr><td>getServerPort</td><td><%= request.getServerPort() %></td></tr>
 	<tr><td>isSecure</td><td><%= request.isSecure() %></td></tr>
@@ -88,12 +88,12 @@
   <table>
 
 	<tr><th>Name</th><th>Value</th></tr>
-	
-	<%   
+
+	<%
 
 		java.util.Enumeration e2 = request.getParameterNames();
 		while (e2.hasMoreElements()) {
-			String name = (String)e2.nextElement(); 
+			String name = (String)e2.nextElement();
 			String[] values = request.getParameterValues(name);
 			%>
 			<tr>
@@ -102,7 +102,7 @@
 			<%
 		}
 	%>
-  
+
   </table>
 
 <hr />
@@ -113,12 +113,12 @@
   	<table>
 
 	<tr><th>Name</th><th>Value</th></tr>
-	
-	<%   
+
+	<%
 
 		java.util.Enumeration e3 = request.getHeaderNames();
 		while (e3.hasMoreElements()) {
-			String name = (String)e3.nextElement(); 
+			String name = (String)e3.nextElement();
 			String value = request.getHeader(name);
 			%>
 			<tr>
@@ -127,22 +127,22 @@
 			<%
 		}
 	%>
-  
+
   </table>
 
 
 <hr />
 
 	<h2>Servlet context parameters</h2>
-	
+
 	<table>
 
 		<tr><th>Property</th><th>Value</th></tr>
 
-	<%   
+	<%
 		java.util.Enumeration a = application.getInitParameterNames();
 		while (a.hasMoreElements()) {
-			String name = (String)a.nextElement(); 
+			String name = (String)a.nextElement();
 			String value = application.getInitParameter(name);
 			%>
 			<tr>
@@ -159,9 +159,12 @@
 
 <h1>My IP</h1>
 
+Port from port.http: <%= System.getProperty("port.http")%>  <br/>
+
+
 Port from app_port: <%= System.getenv("app_port")%>  <br/>
 
-<% 
+<%
  Matcher m = Pattern.compile(".*-port (\\d+) .*").matcher(System.getProperty("sun.java.command"));
  String jcPort = m.matches() ? m.group(1) : "No match";
 %>
@@ -185,7 +188,7 @@ StringBuilder publicHost = new StringBuilder();
 String inputLine;
 while ((inputLine = in.readLine()) != null) publicHost.append(inputLine);
 in.close();
-%> 
+%>
 Host: <%= publicHost.toString() %>  <br /> <%
 }
 catch (Exception x)
@@ -195,6 +198,6 @@ catch (Exception x)
 
 %>
 
-	
+
 </body>
 </html>
