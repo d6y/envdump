@@ -199,5 +199,39 @@ catch (Exception x)
 %>
 
 
+<hr />
+
+<h1>Local Disk</h1>
+
+<table>
+	<tr>
+		<th>Disk</th><th>Free</th><th>Total</th>
+	</tr>
+
+<%
+File[] roots = File.listRoots();
+if (roots != null)
+ for(File root : roots) {
+	long totalSpace = root.getTotalSpace(); //total disk space in bytes.
+	long usableSpace = root.getUsableSpace(); ///unallocated / free disk space in bytes.
+	long freeSpace = root.getFreeSpace(); //unallocated / free disk space in bytes.
+%>
+<tr>
+	<td><%= root.getName() %></td>
+	<td><%= freeSpace %></td>
+	<td><%= totalSpace %></td>
+</tr>
+<%
+}
+%>
+</table>
+
+<h2>Temporary files</h2>
+
+<p>java.io.tmpdir = <%= System.getProperty("java.io.tmpdir") %></p>
+<p>A temporary file: <%= File.createTempFile("foo","bar").getCanonicalPath() %></p>
+
+
+
 </body>
 </html>
